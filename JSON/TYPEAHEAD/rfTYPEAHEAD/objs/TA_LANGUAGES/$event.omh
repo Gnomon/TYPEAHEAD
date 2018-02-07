@@ -1,0 +1,2 @@
+On evTASelect
+	Calculate $cinst.[$cobj.$dataname] as pValue     ;; selected data is put into the variable entered in to $dataname

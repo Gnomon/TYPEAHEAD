@@ -1,0 +1,37 @@
+Set reference MyRef to $cobj
+JavaScript: MyTARef=$(MyRef.elem).find('input')
+;  //lookup column name is stored in $userinfo
+Calculate MyUserinfo as $cobj.$userinfo
+Calculate MyPos as pos('.',MyUserinfo)
+Calculate MyLookupListName as mid(MyUserinfo,1,MyPos-1)
+Calculate MyLookupListCol as mid(MyUserinfo,MyPos+1,255)
+JavaScript: var MyArray=[]
+JavaScript: MyArray=__form.get(MyLookupListName).$colData(MyLookupListCol)     ;; function $colData is provided by user.js - extracts the list.colmn specified in $userinfo (build in $init for this example)
+
+
+JavaScript: MyObj = new Bloodhound({
+JavaScript: datumTokenizer: Bloodhound.tokenizers.whitespace,
+JavaScript: queryTokenizer: Bloodhound.tokenizers.whitespace,
+;  JavaScript: prefetch: 'countries.json',     ;; uncomment this line to add data from a json file
+JavaScript: local: MyArray
+;  JavaScript: local: ['omnis', 'c', 'js']     ;; you might also directly enter the array her like               local: ['english', 'german', 'french']
+JavaScript: });
+
+;  JavaScript: var test = MyObj.initialize();
+;  JavaScript: test
+;  JavaScript: .done(function() { console.log('ready to go!'); })
+;  JavaScript: .fail(function() { console.log('err, something went wrong :('); });
+
+JavaScript: MyTARef.typeahead({
+JavaScript: hint: true,
+JavaScript: highlight: true,
+JavaScript: minLength: 1
+JavaScript: },{
+JavaScript: name: 'data',
+JavaScript: source: MyObj
+JavaScript: });
+
+JavaScript: MyTARef.bind('typeahead:select', function(ev, suggestion) {__form.clientEvCode='evTASelect';MyRef.callMethodEx('$event',0,suggestion);});
+JavaScript: MyRef.callMethod('$redraw')
+JavaScript: $($('.typeahead')[1]).focus()     ;; jump into the type ahead field
+JavaScript: $('.typeahead').typeahead('val', 's')     ;; set a value into the type ahead field

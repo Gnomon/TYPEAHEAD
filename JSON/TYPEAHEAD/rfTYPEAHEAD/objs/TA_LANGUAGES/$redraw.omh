@@ -1,0 +1,3 @@
+Set reference MyRef to $cobj
+Calculate MyValue as $cinst.[$cobj.$dataname]
+JavaScript: $(MyRef.elem).find('.tt-input')[0].value=MyValue

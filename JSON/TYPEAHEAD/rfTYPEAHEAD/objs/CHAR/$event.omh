@@ -1,0 +1,3 @@
+On evKeyPress
+	Calculate MyVal as CHAR
+	JavaScript: $('.typeahead').typeahead('val', MyVal)
